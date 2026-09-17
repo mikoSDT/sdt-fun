@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Points Progress</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #fff;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 50px 40px 90px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+
+  .points-display {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  }
+
+  .points-display span {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+  }
+
+  .progress-wrapper {
+    position: relative;
+    padding: 60px 0 40px;
+  }
+
+  .progress-track {
+    position: relative;
+    height: 26px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    overflow: visible;
+  }
+
+  .progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff, #8e2de2);
+    background-size: 200% 100%;
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.6);
+    width: 0;
+    transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+    filter: blur(8px);
+    border-radius: 20px;
+  }
+
+  .marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+  }
+
+  .marker-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #444;
+    border: 3px solid #666;
+    transition: all 0.4s ease;
+  }
+
+  .marker.reached .marker-dot {
+    background: #ffd700;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  }
+
+  .marker-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .marker:nth-child(odd) .marker-label {
+    bottom: 30px;
+  }
+
+  .marker:nth-child(even) .marker-label {
+    top: 30px;
+  }
+
+  .marker-label .title {
+    font-weight: 600;
+    color: #fff;
+    display: block;
+  }
+
+  .marker-label .pts {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+  }
+
+  .marker.reached .marker-label .title {
+    color: #ffd700;
+  }
+
+  .scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .percent-badge {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    background: #fff;
+    color: #1e1e2f;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    transition: left 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .percent-badge::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Reward Progress</h1>
+      <div class="points-display" id="pointsDisplay">0<span> / 800 Points</span></div>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="percent-badge" id="percentBadge" style="left: 0;">0 pts</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+        <!-- Markers injected by JS -->
+      </div>
+      <div class="scale">
+        <span>0</span>
+        <span>200</span>
+        <span>400</span>
+        <span>600</span>
+        <span>800</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MAX = 800;
+    const current = 38;
+
+    const milestones = [
+      { points: 125, title: "Stickers" },
+      { points: 275, title: "small LEGO® set" },
+      { points: 450, title: "TBD" },
+      { points: 700, title: "TBD" }
+    ];
+
+    const track = document.querySelector('.progress-track');
+    const fill = document.getElementById('progressFill');
+    const badge = document.getElementById('percentBadge');
+    const pointsDisplay = document.getElementById('pointsDisplay');
+
+    // Create markers
+    milestones.forEach(m => {
+      const pos = (m.points / MAX) * 100;
+      const reached = current >= m.points;
+
+      const marker = document.createElement('div');
+      marker.className = 'marker' + (reached ? ' reached' : '');
+      marker.style.left = pos + '%';
+
+      marker.innerHTML = `
+        <div class="marker-dot"></div>
+        <div class="marker-label">
+          <span class="title">${m.title}</span>
+          <span class="pts">${m.points} Points</span>
+        </div>
+      `;
+      track.appendChild(marker);
+    });
+
+    // Animate fill on load
+    window.addEventListener('load', () => {
+      const pct = (current / MAX) * 100;
+      setTimeout(() => {
+        fill.style.width = pct + '%';
+        badge.style.left = pct + '%';
+      }, 200);
+
+      // Animate the point counter
+      let count = 0;
+      const duration = 2000;
+      const startTime = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        count = Math.round(eased * current);
+        pointsDisplay.innerHTML = count + '<span> / 800 Points</span>';
+        badge.textContent = count + ' pts';
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  </script>
+</body>
+</html>
