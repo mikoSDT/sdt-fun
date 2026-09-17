@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Points Progress</title>
 <style>
+  @font-face {
+    font-family: 'LEGO Typewell';
+    src: url('fonts/LEGOTypewell-Regular.woff2') format('woff2'),
+         url('fonts/LEGOTypewell-Regular_3027714448.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -12,7 +21,7 @@
   }
 
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'LEGO Typewell', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
     min-height: 100vh;
     display: flex;
@@ -198,7 +207,8 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Reward Progress</h1>
+      <h1>Service Design Team</h1>
+      <h2>Fun O'meter</h2>
       <div class="points-display" id="pointsDisplay">0<span> / 800 Points</span></div>
     </div>
 
