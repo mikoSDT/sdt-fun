@@ -23,6 +23,7 @@
   body {
     font-family: 'LEGO Typewell', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+    background-attachment: fixed;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -229,6 +230,22 @@
   </div>
 
   <script>
+    // Pick a seasonal background based on the current month.
+    // Autumn: Sep-Nov, Winter: Dec-Feb, Spring: Mar-May, Summer: Jun-Aug
+    (function setSeasonalBackground() {
+      const month = new Date().getMonth(); // 0 = Jan ... 11 = Dec
+      let season;
+      if (month >= 8 && month <= 10) season = 'autumn';      // Sep, Oct, Nov
+      else if (month === 11 || month <= 1) season = 'winter'; // Dec, Jan, Feb
+      else if (month >= 2 && month <= 4) season = 'spring';   // Mar, Apr, May
+      else season = 'summer';                                 // Jun, Jul, Aug
+
+      const gradient = 'linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%)';
+      document.body.style.background =
+        `url('img/bg_${season}.png') center / cover no-repeat, ${gradient}`;
+      document.body.style.backgroundAttachment = 'fixed';
+    })();
+
     const MAX = 800;
     const current = 38;
 
