@@ -193,20 +193,75 @@
     transition: left 2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .percent-badge::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid #fff;
-  }
+   .percent-badge::after {
+     content: '';
+     position: absolute;
+     bottom: -5px;
+     left: 50%;
+     transform: translateX(-50%);
+     border-left: 6px solid transparent;
+     border-right: 6px solid transparent;
+     border-top: 6px solid #fff;
+   }
+
+   .carousel-container {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     z-index: -1;
+     overflow: hidden;
+   }
+
+   .carousel-slide {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-size: cover;
+     background-position: center;
+     opacity: 0;
+     transition: opacity 1s ease-in-out;
+   }
+
+   .carousel-slide.active {
+     opacity: 1;
+   }
+
+   .carousel-controls {
+     position: fixed;
+     bottom: 30px;
+     left: 50%;
+     transform: translateX(-50%);
+     display: flex;
+     gap: 12px;
+     z-index: 10;
+   }
+
+   .carousel-dot {
+     width: 12px;
+     height: 12px;
+     border-radius: 50%;
+     background: rgba(255, 255, 255, 0.4);
+     cursor: pointer;
+     transition: all 0.3s ease;
+     border: 2px solid rgba(255, 255, 255, 0.6);
+   }
+
+   .carousel-dot.active {
+     background: #ffd700;
+     border-color: #fff;
+     box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+   }
 </style>
 </head>
 <body>
-  <div class="container">
+   <div class="carousel-container" id="carouselContainer"></div>
+   <div class="carousel-controls" id="carouselControls"></div>
+
+   <div class="container">
     <div class="header">
       <h1>Service Design Team</h1>
       <h2>Fun O'meter</h2>
@@ -229,22 +284,72 @@
     </div>
   </div>
 
-  <script>
-    // Pick a seasonal background based on the current month.
-    // Autumn: Sep-Nov, Winter: Dec-Feb, Spring: Mar-May, Summer: Jun-Aug
-    (function setSeasonalBackground() {
-      const month = new Date().getMonth(); // 0 = Jan ... 11 = Dec
-      let season;
-      if (month >= 8 && month <= 10) season = 'autumn';      // Sep, Oct, Nov
-      else if (month === 11 || month <= 1) season = 'winter'; // Dec, Jan, Feb
-      else if (month >= 2 && month <= 4) season = 'spring';   // Mar, Apr, May
-      else season = 'summer';                                 // Jun, Jul, Aug
+   <script>
+     // Carousel functionality
+     (function initCarousel() {
+       const carouselImages = ['team-1.png', 'team-2.png', 'team-3.png', 'team-4.png'];
+       const carouselContainer = document.getElementById('carouselContainer');
+       const carouselControls = document.getElementById('carouselControls');
+       let currentIndex = 0;
+       let autoPlayInterval;
 
-      const gradient = 'linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%)';
-      document.body.style.background =
-        `url('img/bg_${season}.png') center / cover no-repeat, ${gradient}`;
-      document.body.style.backgroundAttachment = 'fixed';
-    })();
+       // Create carousel slides
+       carouselImages.forEach((img, index) => {
+         const slide = document.createElement('div');
+         slide.className = 'carousel-slide' + (index === 0 ? ' active' : '');
+         slide.style.backgroundImage = `url('img/carousel/${img}')`;
+         carouselContainer.appendChild(slide);
+       });
+
+       // Create control dots
+       carouselImages.forEach((_, index) => {
+         const dot = document.createElement('div');
+         dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+         dot.addEventListener('click', () => goToSlide(index));
+         carouselControls.appendChild(dot);
+       });
+
+       function goToSlide(index) {
+         const slides = document.querySelectorAll('.carousel-slide');
+         const dots = document.querySelectorAll('.carousel-dot');
+
+         slides.forEach(slide => slide.classList.remove('active'));
+         dots.forEach(dot => dot.classList.remove('active'));
+
+         slides[index].classList.add('active');
+         dots[index].classList.add('active');
+         currentIndex = index;
+
+         clearInterval(autoPlayInterval);
+         startAutoPlay();
+       }
+
+       function nextSlide() {
+         const nextIndex = (currentIndex + 1) % carouselImages.length;
+         goToSlide(nextIndex);
+       }
+
+       function startAutoPlay() {
+         autoPlayInterval = setInterval(nextSlide, 5000);
+       }
+
+       startAutoPlay();
+     })();
+
+     // Pick a seasonal background based on the current month.
+     // Autumn: Sep-Nov, Winter: Dec-Feb, Spring: Mar-May, Summer: Jun-Aug
+     (function setSeasonalBackground() {
+       const month = new Date().getMonth(); // 0 = Jan ... 11 = Dec
+       let season;
+       if (month >= 8 && month <= 10) season = 'autumn';      // Sep, Oct, Nov
+       else if (month === 11 || month <= 1) season = 'winter'; // Dec, Jan, Feb
+       else if (month >= 2 && month <= 4) season = 'spring';   // Mar, Apr, May
+       else season = 'summer';                                 // Jun, Jul, Aug
+
+       const gradient = 'linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%)';
+       document.body.style.background = gradient;
+       document.body.style.backgroundAttachment = 'fixed';
+     })();
 
     const MAX = 800;
     const current = 38;
