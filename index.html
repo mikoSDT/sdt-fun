@@ -20,33 +20,89 @@
     box-sizing: border-box;
   }
 
-  body {
-    font-family: 'LEGO Typewell', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    color: #fff;
-  }
+   body {
+     font-family: 'LEGO Typewell', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+     background-attachment: fixed;
+     min-height: 100vh;
+     display: flex;
+     align-items: flex-start;
+     justify-content: flex-end;
+     padding: 20px;
+     color: #fff;
+     transition: justify-content 0.3s ease;
+   }
 
-  .container {
-    width: 100%;
-    max-width: 900px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 50px 40px 90px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-  }
+   body.pane-left {
+     justify-content: flex-start;
+   }
 
-  .header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
+   .container {
+     width: 100%;
+     max-width: 500px;
+     height: 100vh;
+     background: rgba(255, 255, 255, 0.08);
+     backdrop-filter: blur(25px);
+     border: 1px solid rgba(255, 255, 255, 0.15);
+     border-radius: 24px;
+     padding: 40px 30px;
+     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+     display: flex;
+     flex-direction: column;
+     overflow-y: auto;
+     position: relative;
+     transition: all 0.3s ease;
+   }
+
+   .container::-webkit-scrollbar {
+     width: 6px;
+   }
+
+   .container::-webkit-scrollbar-track {
+     background: transparent;
+   }
+
+   .container::-webkit-scrollbar-thumb {
+     background: rgba(255, 215, 0, 0.3);
+     border-radius: 3px;
+   }
+
+   .container::-webkit-scrollbar-thumb:hover {
+     background: rgba(255, 215, 0, 0.5);
+   }
+
+   .pane-toggle {
+     position: absolute;
+     top: 20px;
+     left: 20px;
+     width: 40px;
+     height: 40px;
+     background: rgba(255, 215, 0, 0.1);
+     border: 1px solid rgba(255, 215, 0, 0.3);
+     border-radius: 10px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     transition: all 0.3s ease;
+     z-index: 100;
+   }
+
+   .pane-toggle:hover {
+     background: rgba(255, 215, 0, 0.2);
+     border-color: rgba(255, 215, 0, 0.5);
+   }
+
+   .pane-toggle img {
+     width: 24px;
+     height: 24px;
+     transition: transform 0.3s ease;
+   }
+
+   .header {
+     text-align: center;
+     margin-bottom: 30px;
+   }
 
   .header h1 {
     font-size: 2rem;
@@ -255,158 +311,440 @@
      border-color: #fff;
      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
    }
+
+   .content-wrapper {
+     display: flex;
+     flex-direction: column;
+     gap: 30px;
+     width: 100%;
+     flex: 1;
+   }
+
+   .score-section {
+     display: flex;
+     flex-direction: column;
+   }
+
+   .activities-section {
+     display: flex;
+     flex-direction: column;
+     flex: 1;
+     max-height: 400px;
+     overflow-y: auto;
+   }
+
+   .activities-section::-webkit-scrollbar {
+     width: 8px;
+   }
+
+   .activities-section::-webkit-scrollbar-track {
+     background: rgba(255, 255, 255, 0.05);
+     border-radius: 10px;
+   }
+
+   .activities-section::-webkit-scrollbar-thumb {
+     background: rgba(255, 215, 0, 0.4);
+     border-radius: 10px;
+   }
+
+   .activities-section::-webkit-scrollbar-thumb:hover {
+     background: rgba(255, 215, 0, 0.6);
+   }
+
+   .activities-title {
+     font-size: 1.2rem;
+     font-weight: 600;
+     color: #fff;
+     margin-bottom: 20px;
+     text-transform: uppercase;
+     letter-spacing: 1px;
+   }
+
+   .activity-item {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 14px 16px;
+     background: rgba(255, 255, 255, 0.05);
+     border: 1px solid rgba(255, 215, 0, 0.2);
+     border-radius: 12px;
+     margin-bottom: 12px;
+     transition: all 0.3s ease;
+   }
+
+
+
+   .activity-headline {
+     font-size: 0.95rem;
+     color: #fff;
+     font-weight: 500;
+   }
+
+   .activity-points {
+     font-size: 1rem;
+     font-weight: 700;
+     color: #ffd700;
+     background: rgba(255, 215, 0, 0.1);
+     padding: 4px 12px;
+     border-radius: 8px;
+     min-width: 60px;
+     text-align: center;
+   }
+
+   .score-display-large {
+     text-align: left;
+     margin-bottom: 40px;
+   }
+
+   .score-label {
+     font-size: 0.9rem;
+     color: rgba(255, 255, 255, 0.6);
+     text-transform: uppercase;
+     letter-spacing: 1px;
+     margin-bottom: 10px;
+   }
+
+   .score-value {
+     font-size: 4rem;
+     font-weight: 800;
+     color: #ffd700;
+     text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+     line-height: 1;
+   }
+
+   .progress-section {
+     margin-top: 50px;
+   }
+
+   .progress-bar-container {
+     position: relative;
+     height: 12px;
+     background: rgba(0, 0, 0, 0.4);
+     border-radius: 10px;
+     overflow: hidden;
+     margin-bottom: 20px;
+     box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.5);
+   }
+
+   .progress-bar-fill {
+     height: 100%;
+     background: linear-gradient(90deg, #00c6ff, #0072ff, #8e2de2);
+     border-radius: 10px;
+     width: 0;
+     transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+     box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
+   }
+
+   .milestones-list {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+   }
+
+   .milestone-item {
+     display: flex;
+     align-items: center;
+     padding: 10px 12px;
+     background: rgba(255, 255, 255, 0.03);
+     border: 1px solid rgba(255, 215, 0, 0.15);
+     border-radius: 8px;
+     font-size: 0.9rem;
+   }
+
+   .milestone-item.reached {
+     background: rgba(255, 215, 0, 0.1);
+     border-color: rgba(255, 215, 0, 0.3);
+   }
+
+   .milestone-item.reached .milestone-points {
+     color: #ffd700;
+     font-weight: 700;
+   }
+
+   .milestone-item.reached .milestone-reward {
+     color: #ffd700;
+     text-align: left;
+   }
+
+   .milestone-dot {
+     width: 10px;
+     height: 10px;
+     border-radius: 50%;
+     background: rgba(255, 215, 0, 0.3);
+     margin-right: 10px;
+     flex-shrink: 0;
+   }
+
+   .milestone-item.reached .milestone-dot {
+     background: #ffd700;
+     box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+   }
+
+   .milestone-points {
+     font-weight: 600;
+     color: rgba(255, 255, 255, 0.7);
+     min-width: 45px;
+   }
+
+   .milestone-reward {
+     color: rgba(255, 255, 255, 0.6);
+     margin-left: 8px;
+     flex: 1;
+   }
+
+   @media (max-width: 768px) {
+     .container {
+       max-width: 100%;
+       height: auto;
+       min-height: 100vh;
+     }
+
+     .activities-section {
+       max-height: 300px;
+     }
+   }
 </style>
 </head>
 <body>
    <div class="carousel-container" id="carouselContainer"></div>
    <div class="carousel-controls" id="carouselControls"></div>
 
-   <div class="container">
-    <div class="header">
-      <h1>Service Design Team</h1>
-      <h2>Fun O'meter</h2>
-      <div class="points-display" id="pointsDisplay">0<span> / 800 Points</span></div>
-    </div>
+    <div class="container">
+      <button class="pane-toggle" id="paneToggle" aria-label="Toggle pane position">
+        <img src="img/move-to-left.svg" alt="Move pane left">
+      </button>
 
-    <div class="progress-wrapper">
-      <div class="percent-badge" id="percentBadge" style="left: 0;">0 pts</div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
-        <!-- Markers injected by JS -->
-      </div>
-      <div class="scale">
-        <span>0</span>
-        <span>200</span>
-        <span>400</span>
-        <span>600</span>
-        <span>800</span>
-      </div>
-    </div>
-  </div>
+      <div class="header">
+       <h1>Service Design Team</h1>
+       <h2>Fun O'meter</h2>
+     </div>
 
-   <script>
-     // Carousel functionality
-     (function initCarousel() {
-       const carouselImages = ['team-1.png', 'team-2.png', 'team-3.png', 'team-4.png'];
-       const carouselContainer = document.getElementById('carouselContainer');
-       const carouselControls = document.getElementById('carouselControls');
-       let currentIndex = 0;
-       let autoPlayInterval;
+     <div class="content-wrapper">
+       <div class="score-section">
+       <div class="score-display-large">
+         <div class="score-label">Total Fun Score</div>
+         <div class="score-value" id="totalScore">0</div>
 
-       // Create carousel slides
-       carouselImages.forEach((img, index) => {
-         const slide = document.createElement('div');
-         slide.className = 'carousel-slide' + (index === 0 ? ' active' : '');
-         slide.style.backgroundImage = `url('img/carousel/${img}')`;
-         carouselContainer.appendChild(slide);
-       });
+         <div class="progress-section">
+           <div class="progress-bar-container">
+             <div class="progress-bar-fill" id="progressBar"></div>
+           </div>
+           <div class="milestones-list" id="milestonesList"></div>
+         </div>
+       </div>
+       </div>
 
-       // Create control dots
-       carouselImages.forEach((_, index) => {
-         const dot = document.createElement('div');
-         dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
-         dot.addEventListener('click', () => goToSlide(index));
-         carouselControls.appendChild(dot);
-       });
+       <div class="activities-section">
+         <div class="activities-title">Activities</div>
+         <div id="activitiesList"></div>
+       </div>
+     </div>
+   </div>
 
-       function goToSlide(index) {
-         const slides = document.querySelectorAll('.carousel-slide');
-         const dots = document.querySelectorAll('.carousel-dot');
+    <script>
+      // Pane toggle functionality
+      (function initPaneToggle() {
+        const paneToggle = document.getElementById('paneToggle');
+        const body = document.body;
+        let isPaneOnLeft = false;
 
-         slides.forEach(slide => slide.classList.remove('active'));
-         dots.forEach(dot => dot.classList.remove('active'));
+        paneToggle.addEventListener('click', () => {
+          isPaneOnLeft = !isPaneOnLeft;
+          const toggleImg = paneToggle.querySelector('img');
 
-         slides[index].classList.add('active');
-         dots[index].classList.add('active');
-         currentIndex = index;
+          if (isPaneOnLeft) {
+            body.classList.add('pane-left');
+            toggleImg.src = 'img/move-to-right.svg';
+            toggleImg.alt = 'Move pane right';
+            localStorage.setItem('panePosition', 'left');
+          } else {
+            body.classList.remove('pane-left');
+            toggleImg.src = 'img/move-to-left.svg';
+            toggleImg.alt = 'Move pane left';
+            localStorage.setItem('panePosition', 'right');
+          }
+        });
 
-         clearInterval(autoPlayInterval);
-         startAutoPlay();
-       }
+        // Restore pane position from localStorage
+        const savedPosition = localStorage.getItem('panePosition');
+        if (savedPosition === 'left') {
+          isPaneOnLeft = true;
+          body.classList.add('pane-left');
+          const toggleImg = paneToggle.querySelector('img');
+          toggleImg.src = 'img/move-to-right.svg';
+          toggleImg.alt = 'Move pane right';
+        }
+      })();
 
-       function nextSlide() {
-         const nextIndex = (currentIndex + 1) % carouselImages.length;
-         goToSlide(nextIndex);
-       }
+       // Carousel functionality
+      (function initCarousel() {
+        const carouselContainer = document.getElementById('carouselContainer');
+        const carouselControls = document.getElementById('carouselControls');
+        let carouselImages = [];
+        let currentIndex = 0;
+        let autoPlayInterval;
 
-       function startAutoPlay() {
-         autoPlayInterval = setInterval(nextSlide, 5000);
-       }
+        async function loadCarouselImages() {
+          try {
+            const response = await fetch('/api/carousel-images');
+            carouselImages = await response.json();
 
-       startAutoPlay();
-     })();
+            if (carouselImages.length === 0) {
+              console.warn('No carousel images found');
+              return;
+            }
 
-     // Pick a seasonal background based on the current month.
-     // Autumn: Sep-Nov, Winter: Dec-Feb, Spring: Mar-May, Summer: Jun-Aug
-     (function setSeasonalBackground() {
-       const month = new Date().getMonth(); // 0 = Jan ... 11 = Dec
-       let season;
-       if (month >= 8 && month <= 10) season = 'autumn';      // Sep, Oct, Nov
-       else if (month === 11 || month <= 1) season = 'winter'; // Dec, Jan, Feb
-       else if (month >= 2 && month <= 4) season = 'spring';   // Mar, Apr, May
-       else season = 'summer';                                 // Jun, Jul, Aug
+            // Create carousel slides
+            carouselImages.forEach((img, index) => {
+              const slide = document.createElement('div');
+              slide.className = 'carousel-slide' + (index === 0 ? ' active' : '');
+              slide.style.backgroundImage = `url('img/carousel/${img}')`;
+              carouselContainer.appendChild(slide);
+            });
 
-       const gradient = 'linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%)';
-       document.body.style.background = gradient;
-       document.body.style.backgroundAttachment = 'fixed';
-     })();
+            // Create control dots
+            carouselImages.forEach((_, index) => {
+              const dot = document.createElement('div');
+              dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+              dot.addEventListener('click', () => goToSlide(index));
+              carouselControls.appendChild(dot);
+            });
 
-    const MAX = 800;
-    const current = 46;
+            startAutoPlay();
+          } catch (error) {
+            console.error('Error loading carousel images:', error);
+          }
+        }
 
-    const milestones = [
-      { points: 125, title: "Stickers" },
-      { points: 275, title: "small LEGO® set" },
-      { points: 450, title: "TBD" },
-      { points: 700, title: "TBD" }
-    ];
+        function goToSlide(index) {
+          const slides = document.querySelectorAll('.carousel-slide');
+          const dots = document.querySelectorAll('.carousel-dot');
 
-    const track = document.querySelector('.progress-track');
-    const fill = document.getElementById('progressFill');
-    const badge = document.getElementById('percentBadge');
-    const pointsDisplay = document.getElementById('pointsDisplay');
+          slides.forEach(slide => slide.classList.remove('active'));
+          dots.forEach(dot => dot.classList.remove('active'));
 
-    // Create markers
-    milestones.forEach(m => {
-      const pos = (m.points / MAX) * 100;
-      const reached = current >= m.points;
+          slides[index].classList.add('active');
+          dots[index].classList.add('active');
+          currentIndex = index;
 
-      const marker = document.createElement('div');
-      marker.className = 'marker' + (reached ? ' reached' : '');
-      marker.style.left = pos + '%';
+          clearInterval(autoPlayInterval);
+          startAutoPlay();
+        }
 
-      marker.innerHTML = `
-        <div class="marker-dot"></div>
-        <div class="marker-label">
-          <span class="title">${m.title}</span>
-          <span class="pts">${m.points} Points</span>
-        </div>
-      `;
-      track.appendChild(marker);
-    });
+        function nextSlide() {
+          const nextIndex = (currentIndex + 1) % carouselImages.length;
+          goToSlide(nextIndex);
+        }
 
-    // Animate fill on load
-    window.addEventListener('load', () => {
-      const pct = (current / MAX) * 100;
-      setTimeout(() => {
-        fill.style.width = pct + '%';
-        badge.style.left = pct + '%';
-      }, 200);
+        function startAutoPlay() {
+          autoPlayInterval = setInterval(nextSlide, 5000);
+        }
 
-      // Animate the point counter
-      let count = 0;
-      const duration = 2000;
-      const startTime = performance.now();
-      function tick(now) {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        count = Math.round(eased * current);
-        pointsDisplay.innerHTML = count + '<span> / 800 Points</span>';
-        badge.textContent = count + ' pts';
-        if (progress < 1) requestAnimationFrame(tick);
+        loadCarouselImages();
+      })();
+
+      // Pick a seasonal background based on the current month.
+      // Autumn: Sep-Nov, Winter: Dec-Feb, Spring: Mar-May, Summer: Jun-Aug
+      (function setSeasonalBackground() {
+        const month = new Date().getMonth(); // 0 = Jan ... 11 = Dec
+        let season;
+        if (month >= 8 && month <= 10) season = 'autumn';      // Sep, Oct, Nov
+        else if (month === 11 || month <= 1) season = 'winter'; // Dec, Jan, Feb
+        else if (month >= 2 && month <= 4) season = 'spring';   // Mar, Apr, May
+        else season = 'summer';                                 // Jun, Jul, Aug
+
+        const gradient = 'linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%)';
+        document.body.style.background = gradient;
+        document.body.style.backgroundAttachment = 'fixed';
+      })();
+
+      // Load activities from JSON
+      let activities = [];
+      let totalScore = 0;
+
+      const milestones = [
+        { points: 125, reward: 'Stickers' },
+        { points: 275, reward: 'small LEGO® set' },
+        { points: 450, reward: 'TBD' }
+      ];
+
+      const MAX_PROGRESS = 500;
+
+      async function loadActivities() {
+        try {
+          const response = await fetch('activities.json');
+          activities = await response.json();
+          calculateTotalScore();
+          renderActivities();
+          renderMilestones();
+          animateScore();
+        } catch (error) {
+          console.error('Error loading activities:', error);
+        }
       }
-      requestAnimationFrame(tick);
-    });
+
+      function calculateTotalScore() {
+        totalScore = activities.reduce((sum, activity) => sum + activity.points, 0);
+      }
+
+      function renderActivities() {
+        const activitiesList = document.getElementById('activitiesList');
+        activitiesList.innerHTML = '';
+
+        activities.forEach((activity, index) => {
+          const item = document.createElement('div');
+          item.className = 'activity-item';
+          item.style.animationDelay = `${index * 100}ms`;
+          item.innerHTML = `
+            <span class="activity-headline">${activity.headline}</span>
+            <span class="activity-points">+${activity.points}</span>
+          `;
+          activitiesList.appendChild(item);
+        });
+      }
+
+      function renderMilestones() {
+        const milestonesList = document.getElementById('milestonesList');
+        milestonesList.innerHTML = '';
+
+        milestones.forEach(milestone => {
+          const isReached = totalScore >= milestone.points;
+          const item = document.createElement('div');
+          item.className = 'milestone-item' + (isReached ? ' reached' : '');
+          item.innerHTML = `
+            <div class="milestone-dot"></div>
+            <span class="milestone-points">${milestone.points}</span>
+            <span class="milestone-reward">${milestone.reward}</span>
+          `;
+          milestonesList.appendChild(item);
+        });
+      }
+
+      function animateScore() {
+        const scoreElement = document.getElementById('totalScore');
+        const progressBar = document.getElementById('progressBar');
+        let count = 0;
+        const duration = 2000;
+        const startTime = performance.now();
+
+        function tick(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          count = Math.round(eased * totalScore);
+          scoreElement.textContent = count;
+
+          // Update progress bar
+          const progressPercent = Math.min((count / MAX_PROGRESS) * 100, 100);
+          progressBar.style.width = progressPercent + '%';
+
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      // Load on page load
+      window.addEventListener('load', loadActivities);
   </script>
 </body>
 </html>
