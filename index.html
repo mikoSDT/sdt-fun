@@ -584,10 +584,10 @@
         let currentIndex = 0;
         let autoPlayInterval;
 
-        async function loadCarouselImages() {
-          try {
-            const response = await fetch('/api/carousel-images');
-            carouselImages = await response.json();
+         async function loadCarouselImages() {
+           try {
+             const response = await fetch('carousel-images.json');
+             carouselImages = await response.json();
 
             if (carouselImages.length === 0) {
               console.warn('No carousel images found');

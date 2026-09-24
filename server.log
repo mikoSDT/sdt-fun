@@ -57,3 +57,11 @@
 127.0.0.1 - - [24/Sep/2026 10:37:08] "GET /api/carousel-images HTTP/1.1" 200 -
 127.0.0.1 - - [24/Sep/2026 10:37:08] "GET / HTTP/1.1" 304 -
 127.0.0.1 - - [24/Sep/2026 10:37:08] "GET /api/carousel-images HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 10:38:47] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [24/Sep/2026 10:38:47] "GET /img/move-to-left.svg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Sep/2026 10:38:47] "GET /api/carousel-images HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 10:38:47] "GET /img/carousel/WhatsApp%20Image%202026-09-17%20at%2012.10.38%20(5).jpeg HTTP/1.1" 304 -
+127.0.0.1 - - [24/Sep/2026 10:38:48] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [24/Sep/2026 10:38:48] "GET /api/carousel-images HTTP/1.1" 200 -
+127.0.0.1 - - [24/Sep/2026 10:38:49] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [24/Sep/2026 10:38:49] "GET /api/carousel-images HTTP/1.1" 200 -
